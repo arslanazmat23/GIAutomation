@@ -1,0 +1,6 @@
+# Ignore node_modules folder
+node_modules/
+# Ignore Cypress cache
+cypress.env.json
+# Ignore Download folder
+downloads/
