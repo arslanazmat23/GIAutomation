@@ -17,10 +17,15 @@
     "cypress": "^14.5.1",
     "cypress-cucumber-preprocessor": "^4.3.1",
     "cypress-iframe": "^1.0.1",
+    "cypress-xpath": "^2.0.1",
+    "prettier": "^3.6.1",
+    "prettier-plugin-gherkin": "^3.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "nodemailer": "^7.0.3"
+    "mailosaur": "^8.8.1",
+    "nodemailer": "^7.0.3",
+    "xpath": "^0.0.34"
   }
 }

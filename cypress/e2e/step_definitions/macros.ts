@@ -1,8 +1,8 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import { eventCheckout } from "../../support/PageObjectModel/eventCheckout";
-import { Login } from "../../support/PageObjectModel/Login";
-import { Membership } from "../../support/PageObjectModel/Pricing";
-import { macros } from "../../support/PageObjectModel/macrosCheckout";
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { eventCheckout } from '../../support/PageObjectModel/eventCheckout';
+import { Login } from '../../support/PageObjectModel/Login';
+import { Membership } from '../../support/PageObjectModel/Pricing';
+import { macros } from '../../support/PageObjectModel/macrosCheckout';
 
 const event = new eventCheckout();
 const login = new Login();
@@ -10,8 +10,8 @@ const membership = new Membership();
 const macrosPage = new macros();
 
 // ✅ Global constants (adjust if you use env vars instead)
-const email = Cypress.env("MacrosEmail");
-const password = Cypress.env("MacrosPassword");
+const email = Cypress.env('MacrosEmail');
+const password = Cypress.env('MacrosPassword');
 
 Given('I open the application URL', () => {
   login.DevUrl();
@@ -29,14 +29,11 @@ Given('I click the Sign In option', () => {
   login.Hamburger_Signin();
 });
 
-Given(
-  'I log in with valid Macros credentials',
-  () => {
-    login.enterEmail(email);
-    login.enterPassword(password);
-    login.clickLogin();
-  }
-);
+Given('I log in with valid Macros credentials', () => {
+  login.enterEmail(email);
+  login.enterPassword(password);
+  login.clickLogin();
+});
 
 Given('I enter demo password', () => {
   login.enterDemoPassword2();
