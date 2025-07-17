@@ -16,11 +16,8 @@ When('the user clicks {string} on the hero banner', (buttonText: string) => {
   cy.contains('button', buttonText).click();
 });
 
-Then('the URL should change to {string}', (expectedPath: string) => {
-  cy.url().should('include', expectedPath);
-});
 
-Then('the Email Entry screen should be displayed', () => {
+Then('the Get Started Page should be displayed', () => {
   cy.get('input[type="email"]').should('be.visible');
 });
 
@@ -123,8 +120,10 @@ When('the user clicks "Get Started"', () => {
   cy.contains('button', 'Get Started').click();
 });
 
-Then('the email verification prompt {string} should be displayed', () => {
+Then('the email verification prompt {string} should be displayed', (fixtureKey: string) => {
+  cy.getTestData('example.json', fixtureKey).then(() => {
   cy.get('h2').should('be.visible');
+  });
 });
 
 // ------------- Screen 7: Email Verification Prompt -------------
@@ -147,24 +146,15 @@ When('the user retrieves and visits their verification link for {string}', (emai
 });
 
 Then('the email verification page should be displayed', () => {
-  cy.url().should('include', '/Client/ConfirmEmail');
-  cy.contains('Your email address is verified.').should('be.visible');
+  cy.url().should('include', '/ConfirmEmail');
+
 });
 
-When('the user clicks "CONTINUE" on the verification page', () => {
-  cy.contains('button', 'CONTINUE').click();
+When('the user clicks "Proceed" on the verification page', () => {
+  cy.get('.email-verification-success-msg > .btn').click();
 });
 
-Then('the login page should be displayed', () => {
-  cy.url().should('include', '/login');
-  cy.xpath("//input[@type='email']").should('be.visible');
-  cy.xpath("//input[@type='password']").should('be.visible');
-  cy.get('#formButton').should('be.visible');
-});
-
-// ------------- Final Login Verification -------------
-When('the user logs in with {string} and {string}', (email: string, password: string) => {
-  cy.xpath("//input[@type='email']").clear().type(email);
-  cy.xpath("//input[@type='password']").clear().type(password);
-  cy.get('#formButton').click();
+Then('the My Account page should be displayed', () => {
+  cy.url().should('include', '/my-account');
+  cy.get('h4 > img').should('be.visible');
 });

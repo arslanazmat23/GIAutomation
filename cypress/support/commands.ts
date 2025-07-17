@@ -80,3 +80,54 @@ Cypress.Commands.add('getIframeBody', (iframeSelector) => {
       });
     }); // The promise itself returns Chainable<JQuery<HTMLElement>>
 });
+
+
+Cypress.Commands.add('getTestData', (fixture: string, key: string) => {
+  return cy
+    .fixture(fixture)
+    .as('JSON')
+    .then((data: { [key: string]: string }) => {
+      // Checking missing key in fixture file
+      if (!Object.hasOwn(data, key)) {
+        throw new Error(`Missing "${key}" variable from "${fixture}" fixture file`);
+      }
+
+      // Replacing environmental variables
+      return data[key].replace(/<([\w\\.]+)>/g, (match: string, tag: string) => {
+        // <id>, <uuid> tags are replaced by regex
+        if (['id', 'uuid'].includes(tag)) {
+          return match;
+        }
+
+        // <timestamp> replaced by current time
+        if (tag === 'timestamp') {
+          return new Date().getTime();
+        }
+
+        // If tag contains a dot it refers to an object and its attribute
+        let tagKey = '';
+        if (tag.includes('.')) {
+          tagKey = tag.split('.')[1];
+          tag = tag.split('.')[0];
+        }
+
+        // Don't want to use expect, because it logs passwords
+        let envVariable = Cypress.env(tag);
+        if (!envVariable) {
+          throw new Error(`Missing "${tag}" environmental variable`);
+        }
+
+        // Handling objects
+        if (tagKey !== '') {
+          envVariable = envVariable[tagKey];
+        }
+
+        // Handling urls without "/" at the end
+        if (fixture === 'url' && !envVariable.endsWith('/')) {
+          return envVariable + '/';
+        }
+
+        return envVariable || match;
+      });
+    });
+});

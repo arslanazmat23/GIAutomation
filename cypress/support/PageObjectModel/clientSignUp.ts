@@ -2,23 +2,32 @@ export class SignupPage {
   retrieveEmailVerificationLink(toAddress: string) {
     const serverId = Cypress.env('MAILOSAUR_SERVER_ID') as string;
 
-    cy.task('getMailosaurMessage', { serverId, sentTo: toAddress }).then((email: any) => {
-      // make sure body is a string
-      const body = (email.html?.body ?? email.text?.body) as string;
-      if (typeof body !== 'string') {
-        throw new Error(`Email body was empty for ${toAddress}`);
-      }
+    cy.task('getMailosaurMessage', { serverId, sentTo: toAddress })
+      .then((email: any) => {
+        // 1) Pull Mailosaur’s parsed <a href> links
+        const parsed: Array<{ href: string }> = email.html?.links ?? [];
 
-      const match = body.match(/https?:\/\/\S+/);
-      if (!match) {
-        throw new Error(`No link found in email for ${toAddress}`);
-      }
+        // 2) Find the one whose href ends up on your ConfirmEmail route
+        let verificationLink = parsed
+          .map(l => l.href)
+          .find(h => h.includes('/ConfirmEmail?'));
 
-      const verificationLink = match[0];
-      // 3) Now you have a link:
-      cy.log(`Visiting verification link → ${verificationLink}`);
-      cy.visit(verificationLink, { failOnStatusCode: false });
-      cy.contains('Your email address is verified.').should('be.visible');
-    });
+        // 3) Fallback: raw‑HTML regex for exactly that path
+        if (!verificationLink) {
+          const body = email.html?.body ?? email.text ?? '';
+          const rx = /https?:\/\/reactdev\.getinsights\.org\/ConfirmEmail\?[^\s"'<>]+/;
+          verificationLink = body.match(rx)?.[0];
+        }
+
+        if (!verificationLink) {
+          throw new Error(
+            `No confirmation link found for ${toAddress}.\nParsed links: ${JSON.stringify(parsed, null, 2)}`
+          );
+        }
+
+        cy.log(`Visiting confirmation URL → ${verificationLink}`);
+        cy.visit(verificationLink, { failOnStatusCode: false });
+        cy.get('.email-verification-success-msg > h4').should('be.visible');
+      });
   }
 }

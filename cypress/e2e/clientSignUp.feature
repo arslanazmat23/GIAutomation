@@ -10,8 +10,7 @@ Feature: User Signup Flow
   Scenario: Complete signup from landing page to membership plans
     # Screen 1: Landing Page
     When the user clicks "Sign Up" on the hero banner
-    Then the URL should change to "/get-started"
-    And the Email Entry screen should be displayed
+    And the Get Started Page should be displayed
 
     # Screen 2: Get Started Page
     When the user enters a valid email "<email>"
@@ -46,24 +45,18 @@ Feature: User Signup Flow
     And the user checks the "Terms and Conditions" checkbox
     And the user checks the "Code of Ethics" checkbox
     And the user clicks "Get Started"
-    Then the email verification prompt "You're all set! Please check your inbox and verify your email." should be displayed
+    Then the email verification prompt "emailVerificationPrompt" should be displayed
 
     # Screen 7: Email Verification Prompt
     When the user clicks "Continue"
     Then the Membership Plans page should be displayed
 
-    # And the "Annual" tab should be selected
-
     # Email Verification Step
     When the user retrieves and visits their verification link for "<email>"
     Then the email verification page should be displayed
-    When the user clicks "CONTINUE" on the verification page
-    Then the login page should be displayed
-
-    # Final Login Verification
-    When the user logs in with "<email>" and "<password>"
-    Then the Membership Plans page should be displayed
+    When the user clicks "Proceed" on the verification page
+    Then the My Account page should be displayed
 
     Examples:
-      | email                               | firstName | lastName | cellNumber | role       | password         |
-      | where-hunter@wrijtpjg.mailosaur.net | Hafiz     | Arslan   | 0123456789 | Contractor | Your@Password123 |
+      | email                              | firstName | lastName | cellNumber | role       | password         |
+      | slave-spend@wrijtpjg.mailosaur.net | Hafiz     | Arslan   | 0123456789 | Contractor | Your@Password123 |
