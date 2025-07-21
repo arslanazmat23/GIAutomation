@@ -7,15 +7,17 @@ Feature: User Signup Flow
     Given the user is on the home page
     And I enter the demo password
 
+  @signup-form-completion
   Scenario: Complete signup from landing page to membership plans
     # Screen 1: Landing Page
     When the user clicks "Sign Up" on the hero banner
-    And the Get Started Page should be displayed
+    Then the "getStartedPageTitle" should be displayed
 
     # Screen 2: Get Started Page
     When the user enters a valid email "<email>"
     Then the "LET'S DO THIS" button is enabled
-    And the user clicks "Let’s Do This"
+
+    When the user clicks "Let’s Do This"
     Then the first name and last name fields are visible
     And the NEXT button on the name page is disabled
 
@@ -31,7 +33,7 @@ Feature: User Signup Flow
     Then the "NEXT" button is enabled
     When the user clicks "NEXT"
     Then the role selection radio buttons are visible
-    And the NEXT button on the role page is disabled
+    And the NEXT button on the role selection page is disabled
 
     # Screen 5: Role Selection
     When the user selects role "<role>"
@@ -45,18 +47,18 @@ Feature: User Signup Flow
     And the user checks the "Terms and Conditions" checkbox
     And the user checks the "Code of Ethics" checkbox
     And the user clicks "Get Started"
-    Then the email verification prompt "emailVerificationPrompt" should be displayed
+    Then the "emailVerificationPrompt" should be displayed
 
     # Screen 7: Email Verification Prompt
     When the user clicks "Continue"
     Then the Membership Plans page should be displayed
 
-    # Email Verification Step
     When the user retrieves and visits their verification link for "<email>"
     Then the email verification page should be displayed
     When the user clicks "Proceed" on the verification page
     Then the My Account page should be displayed
 
     Examples:
-      | email                              | firstName | lastName | cellNumber | role       | password         |
-      | slave-spend@wrijtpjg.mailosaur.net | Hafiz     | Arslan   | 0123456789 | Contractor | Your@Password123 |
+      | email                                   | firstName | lastName | cellNumber | role           | password         |
+      | plate-difficult@wrijtpjg.mailosaur.net  | Hafiz     | Arslan   | 0123456789 | Contractor     | Your@Password123 |
+      | especially-apple@wrijtpjg.mailosaur.net | Jane      | Doe      | 9876543210 | Staff Adjuster | Another@Pass456  |

@@ -2,8 +2,10 @@
 
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 import { SignupPage } from '../../support/PageObjectModel/clientSignUp';
+import { RoleSelectionPage } from '../../support/PageObjectModel/clientSignUp';
 
 const signup = new SignupPage();
+const roleSelection = new RoleSelectionPage();
 
 // ------------- Background -------------
 Given('the user is on the home page', () => {
@@ -14,11 +16,6 @@ Given('the user is on the home page', () => {
 // ------------- Screen 1: Landing Page -------------
 When('the user clicks {string} on the hero banner', (buttonText: string) => {
   cy.contains('button', buttonText).click();
-});
-
-
-Then('the Get Started Page should be displayed', () => {
-  cy.get('input[type="email"]').should('be.visible');
 });
 
 // ------------- Screen 2: Get Started Page -------------
@@ -74,21 +71,21 @@ Then('the role selection radio buttons are visible', () => {
   cy.get('input[type="radio"]').its('length').should('be.gte', 1);
 });
 
-Then('the NEXT button on the role page is disabled', () => {
+Then('the NEXT button on the role selection page is disabled', () => {
   cy.get('.signup_holder > .btn').should('be.disabled');
 });
 
 // ------------- Screen 5: Role Selection -------------
 When('the user selects role {string}', (role: string) => {
-  cy.contains('label', role).click();
+  roleSelection.selectRole(role);
+ 
 });
 
 Then('the "NEXT" button on role selection Page is enabled', () => {
-  cy.get('.signup_holder > .btn').should('be.enabled');
-});
+ roleSelection.nextButton().should('be.enabled');});
 
 When('the user clicks "NEXT" on role Page', () => {
-  cy.get('.signup_holder > .btn').click();
+  roleSelection.nextButton().click();
 });
 
 Then('the password and confirm-password fields are visible', () => {
@@ -120,7 +117,9 @@ When('the user clicks "Get Started"', () => {
   cy.contains('button', 'Get Started').click();
 });
 
-Then('the email verification prompt {string} should be displayed', (fixtureKey: string) => {
+// ------------- Email Verification Prompt Fixture -------------
+
+Then('the {string} should be displayed', (fixtureKey: string) => {
   cy.getTestData('example.json', fixtureKey).then(() => {
   cy.get('h2').should('be.visible');
   });

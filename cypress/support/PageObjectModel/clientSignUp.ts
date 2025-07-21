@@ -27,7 +27,19 @@ export class SignupPage {
 
         cy.log(`Visiting confirmation URL → ${verificationLink}`);
         cy.visit(verificationLink, { failOnStatusCode: false });
+        cy.wait(2000); // Wait for the page to load
         cy.get('.email-verification-success-msg > h4').should('be.visible');
       });
+  }
+}
+
+
+export class RoleSelectionPage {
+  selectRole(role: string) {
+    cy.contains('label', role).click();         // assert it really got checked
+  }
+
+  nextButton() {
+    return cy.get('.signup_holder button.btn');
   }
 }

@@ -2,5 +2,7 @@
   "name": "Using fixtures to represent data",
   "email": "hello@cypress.io",
   "body": "Fixtures are a great way to mock data for responses to routes",
-  "emailVerificationPrompt": "You're all set! Please check your inbox and verify your email."
+  "emailVerificationPrompt": "You're all set! Please check your inbox and verify your email.",
+  "getStartedPageTitle": "Hello! I'm Fevy. I'll get you signed up in seconds. Ready to go?"
+
 }
