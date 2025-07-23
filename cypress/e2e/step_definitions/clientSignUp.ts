@@ -120,7 +120,7 @@ When('the user clicks "Get Started"', () => {
 // ------------- Email Verification Prompt Fixture -------------
 
 Then('the {string} should be displayed', (fixtureKey: string) => {
-  cy.getTestData('example.json', fixtureKey).then(() => {
+  cy.getTestData('prompt.json', fixtureKey).then(() => {
   cy.get('h2').should('be.visible');
   });
 });
