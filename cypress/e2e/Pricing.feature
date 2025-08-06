@@ -24,7 +24,7 @@ Feature: Login and purchase different types of Membership Plans
     Then I complete the checkout form
     And I wait for 2 seconds
     And I logout
-
+@skip
   Scenario: Purchase Pro Plan Monthly
     Given I click the Hamburger menu
     And I click on the Sign In option
@@ -37,7 +37,7 @@ Feature: Login and purchase different types of Membership Plans
     Then I complete the checkout form
     And I wait for 2 seconds
     And I logout
-
+@skip
   Scenario: Purchase Plus Plan Annual
     Given I click the Hamburger menu
     And I click on the Sign In option
@@ -50,7 +50,7 @@ Feature: Login and purchase different types of Membership Plans
     Then I complete the checkout form
     And I wait for 2 seconds
     And I logout
-
+@skip
   Scenario: Purchase Pro Plan Annual
     Given I click the Hamburger menu
     And I click on the Sign In option

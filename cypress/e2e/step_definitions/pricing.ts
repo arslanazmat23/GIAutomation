@@ -7,8 +7,8 @@ const event = new eventCheckout();
 const login = new Login();
 const membership = new Membership();
 
-const email = Cypress.env('pricingEmail');
-const password = Cypress.env('pricingPassword');
+const email = Cypress.env('PricingEmail');
+const password = Cypress.env('PricingPassword');
 
 // ----------- Shared Steps -----------
 

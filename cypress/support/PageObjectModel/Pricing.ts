@@ -68,8 +68,9 @@ export class Membership {
       if ($body.find('.status_Active > p').length > 0) {
         cy.log('Active subscription found. Proceeding to downgrade to no plan.');
 
-        cy.get('.menu-icon > img').click();
-        cy.get('.onepress-menu-mobile > :nth-child(3) > a').click({ force: true });
+        cy.get('.menu-icon > img').should('be.visible');
+        cy.wait(1000);
+        cy.get('.onepress-menu-mobile > :nth-child(3) > a').should('be.visible').click({ force: true });
 
         cy.url()
           .should('include', '/pricing')

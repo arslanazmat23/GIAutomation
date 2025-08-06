@@ -16,7 +16,9 @@ export class macros {
   }
 
   differentiateUpgradePlanAndBuyMacros(): void {
-    cy.get(':nth-child(1) > .col-xl-8 > :nth-child(1) > .col-5 > .download > .btn', { timeout: 15000 }).click();
+    //cy.get(':nth-child(1) > .data-section > .main-content > .content-right > .download > .btn').click();
+    cy.wait(5000);
+    cy.get(':nth-child(1) > .col-xl-8 > :nth-child(1) > .col-5 > .download > .btn, :nth-child(1) > .data-section > .main-content > .content-right > .download > .btn', { timeout: 15000 }).click();
     cy.wait(2000);
 
     cy.get('body').then(($body) => {
@@ -33,7 +35,7 @@ export class macros {
       if (currentUrl.includes('/macros')) {
         cy.wait(5000);
         this.loopCheckAndBuyMacro();
-      } else if (currentUrl.includes('/plan-matrix')) {
+      } else if (currentUrl.includes('/pricing')) {
         membership.clickOnPlusPlanMonthlyBuyButton();
         cy.wait(2000);
         eventPage.fillCheckoutForm();
@@ -57,7 +59,9 @@ export class macros {
           cy.log('Macro already purchased');
           this.RedirecttoMacrosPage();
 
-          cy.get(':nth-child(1) > .col-xl-8 > :nth-child(1) > .col-5 > .download > .btn')
+              cy.get(':nth-child(1) > .col-xl-8 > :nth-child(1) > .col-5 > .download > .btn, :nth-child(1) > .data-section > .main-content > .content-right > .download > .btn', { timeout: 10000 })
+            .should('be.visible')
+
             .click()
             .then(() => {
               cy.wait(2000);
@@ -133,13 +137,14 @@ export class macros {
   }
 
   UpgradePlanMacroButtonRedirect(): void {
-    cy.get(':nth-child(1) > .col-xl-8 > :nth-child(1) > .col-5 > .download > .btn').click();
+    cy.get(':nth-child(1) > .data-section > .main-content > .content-right > .download > .btn').click();
     cy.wait(2000);
     cy.get('.modal-footer > :nth-child(2)').click();
     cy.wait(2000);
   }
 
   ClickOnPlusPlanMonthlyBuyButton(): void {
+    cy.wait(2000);
     cy.get("div[class='FilterPlans'] li:nth-child(1)").click(); // click on the Monthly toggle
     cy.get(':nth-child(1) > .plan-card > .buy > .btn').should('be.visible').click(); //click on the Plus Plan Monthly Buy button
     cy.wait(2000);

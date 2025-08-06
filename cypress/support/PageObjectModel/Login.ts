@@ -34,7 +34,12 @@ export class Login {
   }
 
   enterEmail(emailAddress: string) {
-    cy.get('.upInputs > input', { timeout: 15000 }).clear().type(emailAddress);
+    if (!emailAddress) {
+      throw new Error('Email is not set – please add it to cypress.env.json');
+    }
+    cy.get('.upInputs > input', { timeout: 15000 })
+      .clear()
+      .type(emailAddress, { log: false });
   }
 
   enterPassword(password: string) {
@@ -54,6 +59,7 @@ export class Login {
   }
 
   Hamburger_Signin() {
+    //cy.get('.menu-icon > img', { timeout: 10000 }).click();
     cy.get('.other-page-menu > a > .btn', { timeout: 10000 }).click();
   }
 
@@ -61,6 +67,7 @@ export class Login {
     cy.get('.menu-icon > img').click(); // Click on the hamburger menu
     cy.get('.user_dropdown > :nth-child(5) > a').click(); // Click on Sign Out
     cy.wait(2000);
+    
   }
 }
 export default new Login();
